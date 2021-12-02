@@ -1,8 +1,5 @@
 (ns aoc-2021.day1.day1
- (:require [clojure.java.io :as io])
- (:require [clojure.string :as str])
  (:require [clojure.edn :only [read-string]]))
-(:require [io/reader])
 (use '[aoc-2021.utility.input :only [input-split-on-linebreak]])
 
 
@@ -10,13 +7,12 @@
 (def input (map read-string (input-split-on-linebreak path)))
 
 
-
-(defn aufgabe-1 [in] (let [liste (for [x in
-                                       y (rest in)]
-                                   (if (< x y) 1 0))]
-                                   ;;(print liste)
-                                   (reduce + liste) 
-                         )) 
+(def one-if-greater  #(if (< %1 %2) 1 0))
+(defn aufgabe-1-fun [in] (reduce + (map one-if-greater in (rest in))))
+(def aufgabe-1 (aufgabe-1-fun input))
 (comment
-  (aufgabe-1 input)
+  aufgabe-1  
   )
+(defn aufgabe-2-fun [in] (->> (map #(+ %1 %2 %3) in (rest in) (nthrest 2 in))
+                              (map one-if-greater)
+                              (reduce +)))
