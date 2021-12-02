@@ -10,9 +10,13 @@
 (def one-if-greater  #(if (< %1 %2) 1 0))
 (defn aufgabe-1-fun [in] (reduce + (map one-if-greater in (rest in))))
 (def aufgabe-1 (aufgabe-1-fun input))
+
+(defn aufgabe-2-fun [in] (as-> in data
+                               (map #(+ %1 %2 %3) data (rest data) (nthrest data 2))
+                           (map one-if-greater data (rest data))
+                           (reduce + data)))
+(def aufgabe-2 (aufgabe-2-fun input)) 
+
 (comment
-  aufgabe-1  
-  )
-(defn aufgabe-2-fun [in] (->> (map #(+ %1 %2 %3) in (rest in) (nthrest 2 in))
-                              (map one-if-greater)
-                              (reduce +)))
+  aufgabe-1
+  aufgabe-2)
